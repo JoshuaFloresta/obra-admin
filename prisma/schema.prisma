@@ -86,6 +86,7 @@ model Artist{
   imageUrl String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+    products Product[]
 
   @@index([storeId])
 }
@@ -109,6 +110,7 @@ model Product{
   orderItems OrderItem[]
   createdAt DateTime @default(now())
   UpdatedAt DateTime  @updatedAt
+  artist Artist @relation(fields: [artistId], references: [id])
   artistId String
 
   @@index([storeId])

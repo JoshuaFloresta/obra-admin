@@ -50,7 +50,8 @@ export async function PATCH(
             sizeId,
             images,
             isFeatured,
-            isArchived
+            isArchived,
+            artistId,
         } = body;
 
         if (!userId) {
@@ -75,6 +76,9 @@ export async function PATCH(
 
         if (!sizeId) {
             return new NextResponse("Size ID is required", { status: 400 });
+        }
+        if (!artistId) {
+            return new NextResponse("ArtistId ID is required", { status: 400 });
         }
 
 
@@ -104,6 +108,7 @@ export async function PATCH(
                categoryId,
                colorId,
                sizeId,
+               artistId,
                images:{
                 deleteMany:{}
                },

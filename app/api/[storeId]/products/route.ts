@@ -19,7 +19,8 @@ export async function POST(
          sizeId,
          images,
          isFeatured,
-         isArchived 
+         isArchived,
+         artistId,
         } = body;
 
         if(!userId){
@@ -72,6 +73,7 @@ export async function POST(
             sizeId,
             storeId:params.storeId,
             colorId,
+            artistId,
             images:{
                 createMany:{
                     data:[
@@ -100,6 +102,7 @@ export async function GET(
         const sizeId = searchParams.get("sizeId") ||undefined;
         const colorId = searchParams.get("colorId") ||undefined;
         const isFeatured = searchParams.get("isFeatured") ||undefined;
+        const artistId = searchParams.get("artistId") ||undefined;
 
 
         if(!params.storeId){
@@ -112,6 +115,7 @@ export async function GET(
         categoryId,
         colorId,
         sizeId,
+        artistId,
         isFeatured: isFeatured ? true : undefined,
         isArchived: false
        },
