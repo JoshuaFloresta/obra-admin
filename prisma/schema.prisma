@@ -19,10 +19,12 @@ model Store{
   categories Category[] @relation("StoreToCategory")
   sizes Size[] @relation("StoreToSize")
   colors Color[] @relation("StoreToColor")
+  artist Artist[] @relation("StoreToArtist")
   products Product[] @relation("StoreToProduct")
   orders Order[] @relation("StoreToOrder")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
 }
 
 model Billboard{
@@ -76,6 +78,19 @@ model Color{
   @@index([storeId])
 }
 
+model Artist{
+  id String @id @default(uuid())
+  storeId String
+  store   Store @relation("StoreToArtist",fields:[storeId], references: [id])
+  name String
+  imageUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([storeId])
+}
+
+
 model Product{
   id String @id @default(uuid())
   storeId String
@@ -94,11 +109,13 @@ model Product{
   orderItems OrderItem[]
   createdAt DateTime @default(now())
   UpdatedAt DateTime  @updatedAt
+  artistId String
 
   @@index([storeId])
   @@index([colorId])
   @@index([sizeId])
   @@index([categoryId])
+  @@index([artistId])
 }
 
 model Image{
@@ -136,3 +153,6 @@ model OrderItem{
     @@index([orderId])
     @@index([productId])
 }
+
+// npx prisma generate
+// npx prisma db push
