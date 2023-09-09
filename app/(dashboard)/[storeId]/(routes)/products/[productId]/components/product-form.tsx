@@ -9,7 +9,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { Category, Color, Image, Product, Size } from "@prisma/client";
+import { Artist, Category, Color, Image, Product, Size } from "@prisma/client";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import {
@@ -35,6 +35,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   name: z.string().min(1),
+  artistId: z.string().min(1),
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
@@ -55,12 +56,14 @@ interface ProductFormProps {
   categories: Category[];
   colors: Color[];
   sizes: Size[];
+  artists:Artist[];
 }
 export const ProductForm: React.FC<ProductFormProps> = ({
   initialData,
   categories,
   colors,
   sizes,
+  artists,
 }) => {
   const params = useParams();
   const router = useRouter();
@@ -84,6 +87,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           categoryId: "",
           colorId: "",
           sizeId: "",
+          artistId:"",
           isFeatured: false,
           isArchived: false,
         },
@@ -197,6 +201,39 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="artistId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Artist</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select a Artist"
+                        ></SelectValue>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {artists.map((artist) => (
+                        <SelectItem key={artist.id} value={artist.id}>
+                          {artist.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -325,43 +362,39 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name="isFeatured"
               render={({ field }) => (
                 <FormItem className="flex flex-row item-start space-x-3 space-y-0 rounded-md border p-4 ">
-                    <FormControl>
-                        <Checkbox 
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                        <FormLabel>
-                            Featured
-                        </FormLabel>
-                        <FormDescription>
-                                this product will appear on feautured
-                            </FormDescription>
-                    </div>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Featured</FormLabel>
+                    <FormDescription>
+                      this product will appear on feautured
+                    </FormDescription>
+                  </div>
                 </FormItem>
               )}
             />
 
-<FormField
+            <FormField
               control={form.control}
               name="isArchived"
               render={({ field }) => (
                 <FormItem className="flex flex-row item-start space-x-3 space-y-0 rounded-md border p-4 ">
-                    <FormControl>
-                        <Checkbox 
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                        <FormLabel>
-                            Archived
-                        </FormLabel>
-                        <FormDescription>
-                                this product will not appear on store
-                            </FormDescription>
-                    </div>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Archived</FormLabel>
+                    <FormDescription>
+                      this product will not appear on store
+                    </FormDescription>
+                  </div>
                 </FormItem>
               )}
             />

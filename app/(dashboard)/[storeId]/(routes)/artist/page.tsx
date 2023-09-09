@@ -24,6 +24,7 @@ const ArtistPage = async ({
     const formattedArtist:ArtistColumn[] = artist.map((item) =>({
         id:item.id,
         name:item.name,
+        imageUrl:item.imageUrl,
         createdAt: format(item.createdAt,"MMM do, yyyy h:mm aa")
     }))
 

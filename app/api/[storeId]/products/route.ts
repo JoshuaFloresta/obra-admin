@@ -21,6 +21,7 @@ export async function POST(
          isFeatured,
          isArchived,
          artistId,
+         
         } = body;
 
         if(!userId){
@@ -124,6 +125,7 @@ export async function GET(
         color:true,
         category:true,
         size:true,
+        artist:true,
        },
        orderBy:{
         createdAt:'desc'

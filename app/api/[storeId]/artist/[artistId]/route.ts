@@ -9,13 +9,13 @@ export async function GET (
 ){
     try{
 
-        const billboard = await prismadb.billboard.findUnique({
+        const artist = await prismadb.artist.findUnique({
             where:{
                 id:params.artistId,
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(artist)
 
     }catch(error){
     console.log('[ARTIST_GET]',error); 
@@ -32,14 +32,14 @@ export async function PATCH (
         const { userId } = auth();
         const body =await req.json();
 
-        const {label, imageUrl} = body;
+        const {name, imageUrl} = body;
         
         if(!userId){
             return new NextResponse("Unauthenticated",{status:401});
         }
 
-        if(!label){
-            return new NextResponse("label is required",{status:400});
+        if(!name){
+            return new NextResponse("name is required",{status:400});
         }
 
         if(!imageUrl){
@@ -48,7 +48,7 @@ export async function PATCH (
         
         
         if(!params.artistId){
-            return new NextResponse("billboard ID is required", {status:400})
+            return new NextResponse("artist ID is required", {status:400})
         }
         
 
@@ -63,17 +63,17 @@ export async function PATCH (
         return new NextResponse("Unauthorized",{ status:403 });
     }
 
-        const billboard = await prismadb.billboard.updateMany({
+        const artist = await prismadb.artist.updateMany({
             where:{
                 id:params.artistId,
             },
             data:{
-                label,
-                imageUrl
+                name,
+                imageUrl,
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(artist)
 
     }catch(error){
     console.log('[ARTIST_PATCH]',error); 
@@ -94,7 +94,7 @@ export async function DELETE (
         }
         
         if(!params.artistId){
-            return new NextResponse("Billboard ID is required", {status:400})
+            return new NextResponse("Artist ID is required", {status:400})
         }
 
         const storeByUserId = await prismadb.store.findFirst({
@@ -109,13 +109,13 @@ export async function DELETE (
         }
         
         
-        const billboard = await prismadb.billboard.deleteMany({
+        const artist = await prismadb.artist.deleteMany({
             where:{
                 id:params.artistId,
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(artist)
 
     }catch(error){
     console.log('[ARTIST_DELETE]',error); 

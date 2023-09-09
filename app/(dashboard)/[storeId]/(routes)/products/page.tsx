@@ -1,54 +1,51 @@
-import prismadb from "@/lib/prismadb";
 import { format } from "date-fns";
-import { ProductClient } from "./components/client";
-import { ProductColumn } from "./components/columns";
+
+import prismadb from "@/lib/prismadb";
 import { formatter } from "@/lib/utils";
 
-
-
+import { ProductsClient } from "./components/client";
+import { ProductColumn } from "./components/columns";
 
 const ProductsPage = async ({
-    params
+  params
 }: {
-    params: { storeId:string  }
+  params: { storeId: string }
 }) => {
+  const products = await prismadb.product.findMany({
+    where: {
+      storeId: params.storeId
+    },
+    include: {
+      category: true,
+      size: true,
+      color: true,
+      artist:true,
+    },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
 
-    const products = await prismadb.product.findMany({
-        where: {
-            storeId:params.storeId
-        },
-        include:{
-            category:true,
-            size:true,
-            color:true,
-            artist:true,
-        },
-        orderBy:{
-            createdAt:'desc'
-        }
-    });
+  const formattedProducts: ProductColumn[] = products.map((item) => ({
+    id: item.id,
+    name: item.name,
+    isFeatured: item.isFeatured,
+    isArchived: item.isArchived,
+    price: formatter.format(item.price.toNumber()),
+    artist:item.artist.name,
+    category: item.category.name,
+    size: item.size.name,
+    color: item.color.value,
+    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+  }));
 
-    const formattedProducts:ProductColumn[] = products.map((item) =>({
-        id:item.id,
-        name:item.name,
-        isFeatured:item.isFeatured,
-        isArchived:item.isArchived,
-        price: formatter.format(item.price.toNumber()),
-        category: item.category.name,
-        size: item.size.name,
-        color:item.color.value,
-        artist:item.artist.name,
-        createdAt: format(item.createdAt,"MMM do, yyyy h:mm aa")
-    }))
+  return (
+    <div className="flex-col">
+      <div className="flex-1 space-y-4 p-8 pt-6">
+        <ProductsClient data={formattedProducts} />
+      </div>
+    </div>
+  );
+};
 
-    return ( 
-        <div className="flex-col">
-            <div className="flex-1 space-y-4 px-8 p-6 pb-8">
-                <ProductClient data={formattedProducts}/>
-            </div>
-        </div>
-     );
-}
- 
 export default ProductsPage;
-
