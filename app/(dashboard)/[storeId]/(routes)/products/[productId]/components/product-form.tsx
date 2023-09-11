@@ -58,7 +58,7 @@ interface ProductFormProps {
   categories: Category[];
   colors: Color[];
   sizes: Size[];
-  artists:Artist[];
+  artists: Artist[];
 }
 export const ProductForm: React.FC<ProductFormProps> = ({
   initialData,
@@ -84,13 +84,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       ? { ...initialData, price: parseFloat(String(initialData?.price)) }
       : {
           name: "",
-          description:"",
+          description: "",
           images: [],
           price: 0,
           categoryId: "",
           colorId: "",
           sizeId: "",
-          artistId:"",
+          artistId: "",
           isFeatured: false,
           isArchived: false,
         },
@@ -360,71 +360,69 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               )}
             />
 
-            
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea
-                    disabled={loading}
-                    placeholder="Product Description"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-           <div className="max-h-2">
-           <FormField
+            <FormField
               control={form.control}
-              name="isFeatured"
+              name="description"
               render={({ field }) => (
-                <FormItem className="flex flex-row item-start space-x-3 space-y-0 rounded-md border p-4 ">
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
+                    <Textarea
+                      disabled={loading}
+                      placeholder="Product Description"
+                      {...field}
                     />
                   </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Featured</FormLabel>
-                    <FormDescription>
-                      this product will appear on feautured
-                    </FormDescription>
-                  </div>
+                  <FormMessage />
                 </FormItem>
               )}
             />
+
+            <div className="max-h-2">
+              <FormField
+                control={form.control}
+                name="isFeatured"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row item-start space-x-3 space-y-0 rounded-md border p-4 ">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Featured</FormLabel>
+                      <FormDescription>
+                        this product will appear on feautured
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
             </div>
 
             <div>
-            <FormField
-              control={form.control}
-              name="isArchived"
-              render={({ field }) => (
-                <FormItem className="flex flex-row item-start space-x-3 space-y-0 rounded-md border p-4 ">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Archived</FormLabel>
-                    <FormDescription>
-                      this product will not appear on store
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
-           </div>
-
+              <FormField
+                control={form.control}
+                name="isArchived"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row item-start space-x-3 space-y-0 rounded-md border p-4 ">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Archived</FormLabel>
+                      <FormDescription>
+                        this product will not appear on store
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
@@ -434,5 +432,3 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     </>
   );
 };
-
-

@@ -13,6 +13,7 @@ export async function POST(
 
         const {
          name,
+         description,
          price,
          categoryId,
          colorId,
@@ -67,6 +68,7 @@ export async function POST(
     const product = await prismadb.product.create({
         data: {
             name,
+            description,
             price,
             isFeatured,
             isArchived,
@@ -138,3 +140,4 @@ export async function GET(
         return new NextResponse("internal error",{status:500});
     }
 };
+
