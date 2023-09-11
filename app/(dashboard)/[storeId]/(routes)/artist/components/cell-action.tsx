@@ -36,7 +36,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     try {
       setLoading(true);
       await axios.delete(
-        `/api/${params.storeId}/artists/${data.id}`
+        `/api/${params.storeId}/artist/${data.id}`
       );
       router.refresh();
       toast.success("Artist Successfully Deleted.");
@@ -79,7 +79,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem
             className="flex align-middle items-center cursor-pointer my-2 hover:font-bold"
             onClick={() =>
-              router.push(`/${params.storeId}/artists/${data.id}`)
+              router.push(`/${params.storeId}/artist/${data.id}`)
             }
           >
             <Edit className="mr-2 h-4 w-4" />
