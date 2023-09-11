@@ -47,11 +47,6 @@ export function MainNav({
       label: "Orders",
       active: pathname === `/${params.storeId}/orders`,
     },
-    {
-      href: `/${params.storeId}/settings`,
-      label: "Settings",
-      active: pathname === `/${params.storeId}/settings`,
-    },
 
     {
       href: `/${params.storeId}/sizes`,
@@ -67,6 +62,12 @@ export function MainNav({
         href: `/${params.storeId}/artist`,
         label: "Artist",
         active: pathname === `/${params.storeId}/artist`,
+      },
+
+      {
+        href: `/${params.storeId}/settings`,
+        label: "Settings",
+        active: pathname === `/${params.storeId}/settings`,
       },
   ];
 
@@ -96,7 +97,7 @@ export function MainNav({
         <DropdownMenuContent>
           <DropdownMenuLabel>Options</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {routes.slice(6, 9).map((route) => (
+          {routes.slice(5, 8).map((route) => (
             <Link
               key={route.href}
               href={route.href}
@@ -112,6 +113,22 @@ export function MainNav({
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
+
+
+      {routes.slice(8, 9).map((route) => (
+        <Link
+          key={route.href}
+          href={route.href}
+          className={cn(
+            "text-sm font-medium transition-colors hover:text-primary",
+            route.active
+              ? "text-black dark:text-white"
+              : "text-muted-foreground"
+          )}
+        >
+          {route.label}
+        </Link>
+      ))}
     </nav>
   );
 }
