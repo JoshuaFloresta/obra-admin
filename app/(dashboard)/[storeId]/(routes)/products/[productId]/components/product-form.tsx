@@ -32,9 +32,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   name: z.string().min(1),
+  description: z.string().min(1),
   artistId: z.string().min(1),
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
@@ -82,6 +84,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       ? { ...initialData, price: parseFloat(String(initialData?.price)) }
       : {
           name: "",
+          description:"",
           images: [],
           price: 0,
           categoryId: "",
@@ -357,7 +360,27 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               )}
             />
 
-            <FormField
+            
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    disabled={loading}
+                    placeholder="Product Description"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+           <div className="max-h-2">
+           <FormField
               control={form.control}
               name="isFeatured"
               render={({ field }) => (
@@ -377,7 +400,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
+            </div>
 
+            <div>
             <FormField
               control={form.control}
               name="isArchived"
@@ -398,6 +423,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
+           </div>
+
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
@@ -407,3 +434,5 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     </>
   );
 };
+
+
